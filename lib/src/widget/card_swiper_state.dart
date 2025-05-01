@@ -11,8 +11,6 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper>
   CardSwiperDirection _detectedVerticalDirection = CardSwiperDirection.none;
   bool _tappedOnTop = false;
 
-  BoxConstraints? _currentConstraints;
-
   final _undoableIndex = Undoable<int?>(null);
   final Queue<CardSwiperDirection> _directionHistory = Queue();
 
@@ -82,7 +80,6 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper>
           padding: widget.padding,
           child: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
-              _currentConstraints = constraints;
               return Stack(
                 clipBehavior: Clip.none,
                 fit: StackFit.expand,
@@ -99,6 +96,8 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper>
   }
 
   Widget _frontItem(BoxConstraints constraints) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Positioned(
       left: _cardAnimation.left,
       top: _cardAnimation.top,
@@ -110,8 +109,8 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper>
             child: widget.cardBuilder(
               context,
               _currentIndex!,
-              (100 * _cardAnimation.left / widget.threshold).ceil(),
-              (100 * _cardAnimation.top / widget.threshold).ceil(),
+              (100 * _cardAnimation.left / width).ceil(),
+              (100 * _cardAnimation.top / height).ceil(),
             ),
           ),
         ),
@@ -230,10 +229,8 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper>
   }
 
   CardSwiperDirection _getEndAnimationDirection() {
-    final width =
-        _currentConstraints?.maxWidth ?? MediaQuery.of(context).size.width;
-    final height =
-        _currentConstraints?.maxHeight ?? MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     if (_cardAnimation.left.abs() / width * 100 > widget.threshold) {
       return _cardAnimation.left.isNegative
           ? CardSwiperDirection.left

@@ -40,21 +40,23 @@ class _ExamplePageState extends State<Example> {
           children: [
             Flexible(
               child: CardSwiper(
-                controller: controller,
-                cardsCount: cards.length,
-                onSwipe: _onSwipe,
-                onUndo: _onUndo,
-                numberOfCardsDisplayed: 3,
-                backCardOffset: const Offset(40, 40),
-                padding: const EdgeInsets.all(24.0),
-                cardBuilder: (
-                  context,
-                  index,
-                  horizontalThresholdPercentage,
-                  verticalThresholdPercentage,
-                ) =>
-                    cards[index],
-              ),
+                  controller: controller,
+                  cardsCount: cards.length,
+                  onSwipe: _onSwipe,
+                  onUndo: _onUndo,
+                  numberOfCardsDisplayed: 3,
+                  backCardOffset: const Offset(40, 40),
+                  padding: const EdgeInsets.all(24.0),
+                  cardBuilder: (
+                    context,
+                    index,
+                    horizontalThresholdPercentage,
+                    verticalThresholdPercentage,
+                  ) {
+                    print(horizontalThresholdPercentage);
+                    print(verticalThresholdPercentage);
+                    return cards[index];
+                  }),
             ),
             Padding(
               padding: const EdgeInsets.all(16.0),
