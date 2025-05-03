@@ -51,6 +51,8 @@ class CardAnimation {
     top = _topAnimation.value;
     scale = _scaleAnimation.value;
     difference = _differenceAnimation.value;
+
+    onCardSwiperOffsetChange?.call(left, top);
   }
 
   void reset() {
@@ -61,6 +63,7 @@ class CardAnimation {
     angle = 0;
     scale = initialScale;
     difference = Offset.zero;
+    onCardSwiperOffsetChange?.call(left, top);
   }
 
   void update(double dx, double dy, bool inverseAngle) {

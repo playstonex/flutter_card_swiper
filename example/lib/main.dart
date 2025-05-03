@@ -56,8 +56,8 @@ class _ExamplePageState extends State<Example> {
                   horizontalThresholdPercentage,
                   verticalThresholdPercentage,
                 ) {
-                  // print(horizontalThresholdPercentage);
-                  // print(verticalThresholdPercentage);
+                  print(
+                      "h: $horizontalThresholdPercentage, v: $verticalThresholdPercentage");
                   return cards[index];
                 },
                 onOffsetUpdate:
