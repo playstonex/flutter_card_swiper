@@ -82,6 +82,8 @@ class CardSwiper extends StatefulWidget {
   /// on top of the stack. If the function returns `true`, the swipe action is performed as expected.
   final CardSwiperOnSwipe? onSwipe;
 
+  final CardSwiperOnOffsetUpdate? onOffsetUpdate;
+
   /// Callback function that is called when there are no more cards to swipe.
   final CardSwiperOnEnd? onEnd;
 
@@ -135,6 +137,7 @@ class CardSwiper extends StatefulWidget {
     this.isDisabled = false,
     this.onTapDisabled,
     this.onSwipe,
+    this.onOffsetUpdate,
     this.onEnd,
     this.onSwipeDirectionChange,
     this.allowedSwipeDirection = const AllowedSwipeDirection.all(),

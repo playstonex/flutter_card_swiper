@@ -39,13 +39,13 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper>
       ..addStatusListener(_animationStatusListener);
 
     _cardAnimation = CardAnimation(
-      animationController: _animationController,
-      maxAngle: widget.maxAngle,
-      initialScale: widget.scale,
-      allowedSwipeDirection: widget.allowedSwipeDirection,
-      initialOffset: widget.backCardOffset,
-      onSwipeDirectionChanged: onSwipeDirectionChanged,
-    );
+        animationController: _animationController,
+        maxAngle: widget.maxAngle,
+        initialScale: widget.scale,
+        allowedSwipeDirection: widget.allowedSwipeDirection,
+        initialOffset: widget.backCardOffset,
+        onSwipeDirectionChanged: onSwipeDirectionChanged,
+        onCardSwiperOffsetChange: onSwiperOffsetUpdate);
   }
 
   void onSwipeDirectionChanged(CardSwiperDirection direction) {
@@ -63,6 +63,18 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper>
 
     widget.onSwipeDirectionChange
         ?.call(_detectedHorizontalDirection, _detectedVerticalDirection);
+  }
+
+  void onSwiperOffsetUpdate(
+    double left,
+    double top,
+  ) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+    widget.onOffsetUpdate?.call(
+      (100 * _cardAnimation.left / width).ceil(),
+      (100 * _cardAnimation.top / height).ceil(),
+    );
   }
 
   @override

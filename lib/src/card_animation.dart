@@ -4,6 +4,11 @@ import 'dart:ui';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 
+typedef CardSwiperOffsetChange = void Function(
+  double left,
+  double top,
+);
+
 class CardAnimation {
   CardAnimation({
     required this.animationController,
@@ -14,6 +19,7 @@ class CardAnimation {
     this.isVerticalSwipingEnabled = true,
     this.allowedSwipeDirection = const AllowedSwipeDirection.all(),
     this.onSwipeDirectionChanged,
+    this.onCardSwiperOffsetChange,
   }) : scale = initialScale;
 
   final double maxAngle;
@@ -24,6 +30,7 @@ class CardAnimation {
   final bool isVerticalSwipingEnabled;
   final AllowedSwipeDirection allowedSwipeDirection;
   final ValueChanged<CardSwiperDirection>? onSwipeDirectionChanged;
+  final CardSwiperOffsetChange? onCardSwiperOffsetChange;
 
   double left = 0;
   double top = 0;
@@ -99,6 +106,7 @@ class CardAnimation {
     updateAngle(inverseAngle);
     updateScale();
     updateDifference();
+    onCardSwiperOffsetChange?.call(left, top);
   }
 
   void updateAngle(bool inverse) {

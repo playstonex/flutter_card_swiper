@@ -22,6 +22,8 @@ class Example extends StatefulWidget {
 }
 
 class _ExamplePageState extends State<Example> {
+  double x = 0.0;
+  double y = 0.0;
   final CardSwiperController controller = CardSwiperController();
 
   final cards = candidates.map(ExampleCard.new).toList();
@@ -38,25 +40,34 @@ class _ExamplePageState extends State<Example> {
       body: SafeArea(
         child: Column(
           children: [
+            Text("x: $x, y: $y"),
             Flexible(
               child: CardSwiper(
-                  controller: controller,
-                  cardsCount: cards.length,
-                  onSwipe: _onSwipe,
-                  onUndo: _onUndo,
-                  numberOfCardsDisplayed: 3,
-                  backCardOffset: const Offset(40, 40),
-                  padding: const EdgeInsets.all(24.0),
-                  cardBuilder: (
-                    context,
-                    index,
-                    horizontalThresholdPercentage,
-                    verticalThresholdPercentage,
-                  ) {
-                    print(horizontalThresholdPercentage);
-                    print(verticalThresholdPercentage);
-                    return cards[index];
-                  }),
+                controller: controller,
+                cardsCount: cards.length,
+                onSwipe: _onSwipe,
+                onUndo: _onUndo,
+                numberOfCardsDisplayed: 3,
+                backCardOffset: const Offset(40, 40),
+                padding: const EdgeInsets.all(24.0),
+                cardBuilder: (
+                  context,
+                  index,
+                  horizontalThresholdPercentage,
+                  verticalThresholdPercentage,
+                ) {
+                  // print(horizontalThresholdPercentage);
+                  // print(verticalThresholdPercentage);
+                  return cards[index];
+                },
+                onOffsetUpdate:
+                    (horizontalOffsetPercentage, verticalOffsetPercentage) {
+                  setState(() {
+                    x = horizontalOffsetPercentage.toDouble();
+                    y = verticalOffsetPercentage.toDouble();
+                  });
+                },
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(16.0),
