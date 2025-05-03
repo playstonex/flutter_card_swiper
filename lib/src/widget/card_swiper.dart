@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:math' as math;
+import 'dart:math';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';

@@ -5,6 +5,8 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper>
   late CardAnimation _cardAnimation;
   late AnimationController _animationController;
 
+  Size? _cardSize;
+
   SwipeType _swipeType = SwipeType.none;
   CardSwiperDirection _detectedDirection = CardSwiperDirection.none;
   CardSwiperDirection _detectedHorizontalDirection = CardSwiperDirection.none;
@@ -69,11 +71,15 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper>
     double left,
     double top,
   ) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+    final width = _cardSize != null
+        ? _cardSize!.width
+        : MediaQuery.of(context).size.width;
+    final height = _cardSize != null
+        ? _cardSize!.height
+        : MediaQuery.of(context).size.height;
     widget.onOffsetUpdate?.call(
-      (100 * _cardAnimation.left / width).ceil(),
-      (100 * _cardAnimation.top / height).ceil(),
+      max(min(100, (100 * _cardAnimation.left / width).ceil()), -100),
+      max(min(100, (100 * _cardAnimation.top / height).ceil()), -100),
     );
   }
 
@@ -92,6 +98,7 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper>
           padding: widget.padding,
           child: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
+              _cardSize = constraints.biggest;
               return Stack(
                 clipBehavior: Clip.none,
                 fit: StackFit.expand,
@@ -108,8 +115,8 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper>
   }
 
   Widget _frontItem(BoxConstraints constraints) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+    final width = constraints.maxWidth;
+    final height = constraints.maxHeight;
     return Positioned(
       left: _cardAnimation.left,
       top: _cardAnimation.top,
@@ -121,8 +128,8 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper>
             child: widget.cardBuilder(
               context,
               _currentIndex!,
-              (100 * _cardAnimation.left / width).ceil(),
-              (100 * _cardAnimation.top / height).ceil(),
+              max(-100, min(100, (100 * _cardAnimation.left / width).ceil())),
+              max(-100, min(100, (100 * _cardAnimation.top / height).ceil())),
             ),
           ),
         ),
