@@ -248,8 +248,8 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper>
   }
 
   CardSwiperDirection _getEndAnimationDirection() {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+    final width = _cardSize?.width ?? MediaQuery.of(context).size.width;
+    final height = _cardSize?.height ?? MediaQuery.of(context).size.height;
     if (_cardAnimation.left.abs() / width * 100 > widget.threshold) {
       return _cardAnimation.left.isNegative
           ? CardSwiperDirection.left

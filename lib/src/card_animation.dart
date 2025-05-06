@@ -158,9 +158,10 @@ class CardAnimation {
     final adjustedAngle = (targetAngle - 90) * (math.pi / 180);
 
     // Calculate the target position based on the angle
-    final magnitude = size.width; // Use screen width as base magnitude
-    final targetX = magnitude * math.cos(adjustedAngle);
-    final targetY = magnitude * math.sin(adjustedAngle);
+    final magnitudeX = size.width; // Use screen width as base magnitude
+    final magnitudeY = size.height; // Use screen height as base magnitude
+    final targetX = magnitudeX * math.cos(adjustedAngle);
+    final targetY = magnitudeY * math.sin(adjustedAngle);
 
     _leftAnimation = Tween<double>(
       begin: left,
